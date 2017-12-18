@@ -5,18 +5,6 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permis
 # Create your models here.
 
 
-class Country(models.Model):
-    name = models.CharField(_('Name'), max_length=100)
-
-
-class City(models.Model):
-    name = models.CharField(_('Name'), max_length=100)
-    city = models.ForeignKey(
-        'Country',
-        on_delete=models.CASCADE,
-        verbose_name=_('Country')
-    )
-
 class UserManager(BaseUserManager):
     """
     A custom user manager to deal with emails as unique identifiers for auth
@@ -48,8 +36,8 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, null=True)
-    country = models.ForeignKey('Country', verbose_name=_('Country'), null=True)
-    city = models.ForeignKey('City', verbose_name=_('City'), null=True)
+    country = models.CharField(_('Country'), max_length=100, null=True)
+    city = models.CharField(_('City'), max_length=100, null=True)
     birthday = models.DateField(_('Birthday'), null=True)
     is_staff = models.BooleanField(
         _('staff status'),

@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import User
 
+
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
@@ -18,8 +19,8 @@ class UserAdmin(BaseUserAdmin):
     )
 
     readonly_fields = ('date_joined',)
-    list_display = ('email', 'is_staff')
-    search_fields = ('email', )
+    list_display = ('email', 'is_staff', 'country', 'city')
+    search_fields = ('email', 'country', 'city')
     ordering = ('email',)
 
 admin.site.register(User, UserAdmin)
