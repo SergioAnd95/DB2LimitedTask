@@ -1,1 +1,1 @@
-web: gunicorn mynextdestination.wsgi
+web: gunicorn DB2LimitedTask.wsgi
