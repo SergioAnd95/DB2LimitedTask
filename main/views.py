@@ -7,7 +7,7 @@ from blog.forms import PostSearchForm
 
 class MainView(ListView):
     model = Post
-    paginate_by = 6
+    paginate_by = 3
     template_name = 'main.html'
     search_form_class = PostSearchForm
     context_object_name = 'posts'
@@ -20,5 +20,4 @@ class MainView(ListView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['search_form'] = self.search_form
-
         return ctx

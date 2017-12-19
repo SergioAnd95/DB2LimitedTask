@@ -14,6 +14,8 @@
     <div class="row">
         {% for post in posts %}
             {% include 'blog/partials/post_preview.html' %}
+        {% empty %}
+            <div>Doesn't find any posts</div>
         {% endfor %}
     </div>
 
