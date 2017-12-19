@@ -2,13 +2,13 @@
 
 {% load widget_tweaks %}
 
-{% block title %}{{ block.super }} - Sign in{% endblock %}
+{% block title %}{{ block.super }} - Post creation{% endblock %}
 
 {% block content %}
-    <h2 class="align-center">Sign in</h2>
+    <h2 class="align-center">Post creation</h2>
     <div class="col-md-6 col-md-offset-3 col-xs-12">
-    <form method="post">
-        <p>{% for error in form.none_field_errors  %}{{ error }}, {% endfor %}</p>
+    <form method="post" enctype="multipart/form-data">
+        <p>{% for error in form.none_field_errors  %}{{ error }} {% endfor %}</p>
         {% for field in form %}
             <div class="form-group {% if field.errors %}has-warning{% endif %}">
                 {{ field.label_tag }}
@@ -19,7 +19,7 @@
             </div>
         {% endfor %}
         {% csrf_token %}
-        <input type="submit" value="Login">
+        <input class="btn btn-primary" type="submit" value="Create">
     </form>
     </div>
 {% endblock %}

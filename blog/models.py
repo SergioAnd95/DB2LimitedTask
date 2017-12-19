@@ -6,14 +6,9 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-class PostManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().annotate(likes_count=models.Count('likes'))
-
-
 class Post(models.Model):
     title = models.CharField(_('Title'), max_length=256)
-    preview_text = models.TextField(_('Preview text'), blank=True, null=True)
+    preview_text = models.TextField(_('Preview text'), max_length=300, blank=True, null=True)
     main_image = models.ImageField(_('Main image'), upload_to='post')
     body = models.TextField(_('Body'))
     author = models.ForeignKey(
@@ -26,7 +21,7 @@ class Post(models.Model):
     date_modified = models.DateTimeField(_('Date modified'), auto_now=True)
 
     class Meta:
-        ordering = ('date_created', )
+        ordering = ('-date_created', )
 
     def __str__(self):
         return self.title
@@ -36,6 +31,18 @@ class Post(models.Model):
 
     def user_like_exist(self, user):
         return self.likes.filter(user=user).count() > 0
+
+    @property
+    def likes_count(self):
+        return self.likes.count()
+
+    @property
+    def comments_count(self):
+        return self.comments.count()
+
+    @models.permalink
+    def get_absolute_url(self):
+        return "blog:post_detail", (self.id, )
 
 
 class Comment(models.Model):
@@ -56,6 +63,9 @@ class Comment(models.Model):
     def __str__(self):
         return "Comment %s by %s" %(self.post.title, self.author.email)
 
+    class Meta:
+        ordering = ('-date_created', )
+
 
 class Like(models.Model):
     user = models.ForeignKey(
@@ -73,3 +83,4 @@ class Like(models.Model):
 
     class Meta:
         unique_together = ('user', 'post')
+        ordering = ('-date_created',)

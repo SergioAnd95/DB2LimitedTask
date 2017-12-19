@@ -1,7 +1,3 @@
-from django.shortcuts import render
-
-# Create your views here.
-
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
@@ -41,7 +37,8 @@ class SignUp(FormView):
             mail_subject, message, to=[to_email]
         )
         email.send()
-        return HttpResponse('Please confirm your email address to complete the registration')
+        text = 'Please confirm your email address to complete the registration'
+        return render(self.request, 'registration/activate.html', {'text': text})
 
 
 def activate(request, uidb64, token):
@@ -55,6 +52,8 @@ def activate(request, uidb64, token):
         user.save()
         login(request, user)
         # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        text = 'Thank you for your email confirmation. Now you can login your account.'
     else:
-        return HttpResponse('Activation link is invalid!')
+        text = 'Activation link is invalid!'
+
+    return render(request, 'registration/activate.html', {'text': text})

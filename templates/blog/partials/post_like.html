@@ -1,0 +1,5 @@
+{% load likes_tags %}
+
+{% like_exist post request.user as liked %}
+<span><a class="toggle_like {% if liked %}like-active{% else %}like-disable{% endif %}" href="{% url 'blog:toggle_like' post.pk %}"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a> <span class="likes_count">{{ post.likes_count }}</span></span>&nbsp;&nbsp;
+<span><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> {{ post.comments_count }}</span>

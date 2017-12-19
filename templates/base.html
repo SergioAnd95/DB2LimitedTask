@@ -1,0 +1,70 @@
+{% load staticfiles %}
+
+<html lang="en" class="mdl-js"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}Blog{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+  <style></style></head>
+
+  <body style="">
+    {% block header %}
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'main:main' %}">Blog</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    {% if request.user.is_authenticated %}
+                    <ul class="nav navbar-nav">
+                        <li><a href="{% url 'main:main' %}">Home</a></li>
+                        <li><a href="{% url 'blog:post_create' %}">Post create</a></li>
+                    </ul>
+                    {% endif %}
+                    {% if request.user.is_authenticated %}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#">{{ request.user.email }}</a></li>
+                            <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                        </ul>
+                    {% else %}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="{% url 'login' %}">Sign In</a></li>
+                            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    {% endblock %}
+
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/scripts.js' %}"></script>
+    {% block add_scripts %}
+    
+    {% endblock %}
+</body>
+</html>

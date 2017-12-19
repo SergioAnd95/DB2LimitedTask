@@ -1,0 +1,20 @@
+{% load thumbnail likes_tags %}
+
+<div style="max-height: 500px; height: 500px;" class="col-md-4 col-sm-6 col-xs-10">
+    <div class="">
+        {% thumbnail post.main_image "300x200" crop="center" as img %}
+            <img class="img-responsive img-thumbnail" src="{{ img.url }}" alt="{{ post.title }}">
+        {% endthumbnail %}
+    </div>
+    <h4>{{ post.title }}</h4>
+    <div><a href="{{ post.get_absolute_url }}" class="btn btn-default">Read more</a>
+        <span style="float: right">
+           {% include 'blog/partials/post_like.html' %}
+        </span>
+    </div>
+    <hr>
+    <div class="">
+        {{ post.get_preview_text }}
+    </div>
+    <hr>
+</div>

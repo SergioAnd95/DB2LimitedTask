@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load thumbnail widget_tweaks likes_tags %}
+
+{% block title %}{{ block.super }} - {{ post.title }}{% endblock %}
+
+
+{% block content %}
+        <hr>
+        <h6>{{ post.date_created }}</h6>
+        <h1>{{ post.title }}</h1>
+        <div>
+        {% thumbnail post.main_image "500" crop="center" as img %}
+            <img src="{{ img.url }}" alt="{{ post.title }}">
+        {% endthumbnail %}
+        </div>
+        <br>
+        <p style="font-size: 18px;">
+            {% include 'blog/partials/post_like.html' %}
+        </p>
+        <p>{{ post.body }}</p>
+        <hr>
+        <h3>Comments</h3>
+        <form class="form" action="{% url 'blog:add_comment' post.pk %}" id="comment-form" method="post" >
+            {% csrf_token %}
+            {% for field in comment_form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {% render_field field class="form-control" %}
+                </div>
+            {% endfor %}
+            <input type="submit" class="btn btn-primary" value="add comment">
+        </form>
+        <div>
+        {% for comment in comments %}
+            <div class="panel panel-default">
+                <div class="panel-heading"><span>{{ comment.author.email }}</span> <span style="float: right" class="text-right">{{ comment.date_created }}</span></div>
+                <div class="panel-body">
+                    {{ comment.body }}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% include 'partials/pagination.html' with page_obj=comments paginator=comments.paginator %}
+
+{% endblock %}
